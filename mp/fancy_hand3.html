@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAOS HAND CORE - OVERDRIVE v∞</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/addons/p5.sound.min.js"></script>
+  <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+    }
+
+    .nav-group {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 2000;
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      padding: 10px 15px;
+      font-size: 0.75em;
+      border-radius: 4px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    #back-btn {
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      color: #0ff;
+    }
+
+    #reload-btn {
+      background: rgba(255, 50, 50, 0.05);
+      border: 1px solid rgba(255, 50, 50, 0.3);
+      color: #f33;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      color: #0ff;
+    }
+
+    .start-btn {
+      background: transparent;
+      border: 1px solid #0ff;
+      color: #0ff;
+      padding: 12px 35px;
+      font-size: 1.1em;
+      cursor: pointer;
+      margin-top: 20px;
+      letter-spacing: 4px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 5px #0ff
+      }
+
+      50% {
+        box-shadow: 0 0 30px #0ff, 0 0 60px #0ff
+      }
+    }
+
+    #status-log {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      color: rgba(0, 255, 255, 0.4);
+      font-size: 10px;
+      z-index: 2000;
+    }
+
+    #combo-display {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 6em;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 30px #f0f, 0 0 60px #f0f;
+      pointer-events: none;
+      z-index: 1500;
+      opacity: 0;
+      transition: opacity 0.2s;
+      letter-spacing: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav-group">
+    <a href="../perception_demo.html" id="back-btn" class="nav-btn">HUB</a>
+    <div id="reload-btn" class="nav-btn" onclick="location.reload()">RELOAD</div>
+  </div>
+  <div id="status-log">SYSTEM IDLE</div>
+  <div id="combo-display"></div>
+
+  <div id="overlay">
+    <div style="letter-spacing: 8px; font-size: 1.8em; text-shadow: 0 0 20px #0ff;">CHAOS_HAND_CORE</div>
+    <div style="letter-spacing: 3px; font-size: 0.8em; margin-top:5px; color:#f0f;">OVERDRIVE v∞</div>
+    <div id="loading-msg" style="margin-top:20px; font-size: 12px; color: rgba(0,255,255,0.6);">LOADING AI ENGINE...
+    </div>
+    <button id="init-btn" class="start-btn" onclick="initSystem()" style="display:none;">▶ ACTIVATE CHAOS</button>
+  </div>
+
+  <script>
+    // ─── State ───────────────────────────────────────────────────────────────
+    let video, handPose, hands = [];
+    let isReady = false;
+    let smoothedAngle = [0, 0], lastTickAngle = [0, 0], smoothedPos = [{ x: 0, y: 0 }, { x: 0, y: 0 }];
+    let colorIdx = 0;
+    let glitchTimer = 0;
+    let osc, envelope, linkOsc;
+    let modelCheckTimer = 0;
+
+    // Particle system
+    let particles = [];
+    // Shockwaves
+    let shockwaves = [];
+    // Trails per finger per hand  [handIdx][fingerId] = [{x,y,age}]
+    let trails = [];
+    // Matrix rain
+    let matrixCols = [];
+    let matrixChars = '01アイウエオカキクケコXYZ∆∇⌘♦♠♣∞≈';
+
+    // Pinch state
+    let pinchState = [false, false];
+    let comboCount = 0;
+    let comboTimer = 0;
+    let raveMode = false;
+    let raveBeat = 0;
+    let hueShift = 0;
+
+    let buttons = [
+      { label: 'COLOR', x: 40, y: 120, w: 90, h: 40, active: false },
+      { label: 'GLITCH', x: 40, y: 170, w: 90, h: 40, active: false },
+      { label: 'RAVE', x: 40, y: 220, w: 90, h: 40, active: false },
+      { label: 'MATRIX', x: 40, y: 270, w: 90, h: 40, active: false },
+    ];
+
+    let matrixMode = false;
+    const PALETTE = ['#00ffff', '#ff00ff', '#ffff00', '#ff6600', '#00ff88', '#ff0066'];
+    let mainColor;
+
+    // ─── p5 Setup ─────────────────────────────────────────────────────────
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      colorMode(HSB, 360, 100, 100, 100);
+      mainColor = color(180, 100, 100);
+
+      osc = new p5.Oscillator('sine');
+      envelope = new p5.Envelope();
+      envelope.setADSR(0.001, 0.05, 0.1, 0.1);
+      envelope.setRange(0.5, 0);
+
+      linkOsc = new p5.Oscillator('sawtooth');
+      linkOsc.amp(0);
+
+      // Matrix columns
+      let cols = floor(windowWidth / 16);
+      for (let i = 0; i < cols; i++) {
+        matrixCols.push({ x: i * 16, y: random(-height, 0), speed: random(5, 20) });
+      }
+
+      handPose = ml5.handPose({ flipped: true, maxHands: 2 }, () => {
+        document.getElementById('loading-msg').style.display = 'none';
+        document.getElementById('init-btn').style.display = 'block';
+        updateLog('MODEL ENGINE READY');
+      });
+      angleMode(DEGREES);
+      textFont('Courier New');
+    }
+
+    function updateLog(msg) {
+      document.getElementById('status-log').innerText = `LOG: ${msg}`;
+    }
+
+    function initSystem() {
+      userStartAudio();
+      playBootSound();
+      video = createCapture(VIDEO, () => {
+        document.getElementById('overlay').style.display = 'none';
+        startDetection();
+      });
+      video.size(640, 480);
+      video.hide();
+    }
+
+    function startDetection() {
+      isReady = true;
+      updateLog('DETECTOR ONLINE');
+      handPose.detectStart(video, results => {
+        hands = results;
+        modelCheckTimer = 0;
+      });
+    }
+
+    function playTone(freq) { osc.freq(freq); osc.start(); envelope.play(osc); }
+
+    function playBootSound() {
+      let f = 300;
+      let interval = setInterval(() => {
+        playTone(f); f += 250;
+        if (f > 1800) clearInterval(interval);
+      }, 50);
+    }
+
+    function playExplosionSound() {
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => playTone(random(50, 800)), i * 30);
+      }
+    }
+
+    // ─── Draw ─────────────────────────────────────────────────────────────
+    function draw() {
+      hueShift = (hueShift + 0.8) % 360;
+      raveBeat = (raveBeat + 1) % 60;
+
+      // Background
+      if (raveMode) {
+        background((hueShift + raveBeat * 6) % 360, 80, 10, 90);
+      } else {
+        background(0, 0, 5, 85);
+      }
+
+      if (!isReady) return;
+
+      modelCheckTimer++;
+      if (modelCheckTimer > 180) {
+        updateLog('HANG DETECTED. RESTARTING...');
+        startDetection();
+        modelCheckTimer = 0;
+      }
+
+      // Matrix rain
+      if (matrixMode) drawMatrixRain();
+
+      // Glitch offset
+      let gx = glitchTimer > 0 ? random(-15, 15) : 0;
+      let gy = glitchTimer > 0 ? random(-5, 5) : 0;
+      if (glitchTimer > 0) glitchTimer--;
+
+      // Video feed
+      push();
+      translate(width + gx, gy); scale(-1, 1);
+      colorMode(RGB);
+      let h = hue(mainColor);
+      tint(
+        raveMode ? sin(frameCount * 3) * 127 + 128 : red(color(h * 1, 85, 90)),
+        30,
+        raveMode ? sin(frameCount * 5) * 127 + 128 : blue(color(h * 1, 85, 90)),
+        40
+      );
+      colorMode(HSB, 360, 100, 100, 100);
+      image(video, 0, 0, width, height, 0, 0, video.width, video.height, COVER);
+      pop();
+
+      // Particles
+      updateParticles();
+
+      // Shockwaves
+      updateShockwaves();
+
+      // Combo decay
+      if (comboTimer > 0) comboTimer--;
+      else if (comboCount > 0) {
+        comboCount = 0;
+        document.getElementById('combo-display').style.opacity = 0;
+      }
+
+      // Hand processing
+      if (hands && hands.length > 0) {
+        // Init trails
+        while (trails.length < hands.length) trails.push({});
+
+        for (let i = 0; i < hands.length; i++) {
+          let hand = hands[i];
+          let indexTip = hand.keypoints[8];
+          let tx = map(indexTip.x, 0, 640, 0, width);
+          let ty = map(indexTip.y, 0, 480, 0, height);
+
+          checkButtons(tx, ty);
+          updateTrails(hand, i, gx, gy);
+          drawTrails(i);
+          drawGlowSkeleton(hand, i, gx, gy);
+          drawExplosiveFingertips(hand, i, gx, gy);
+          drawHoloDial(hand, i, gx, gy);
+          drawCursor(tx, ty, i);
+
+          // Emit particles from fingertips
+          [4, 8, 12, 16, 20].forEach(idx => {
+            let k = hand.keypoints[idx];
+            let px = map(k.x, 0, 640, 0, width) + gx;
+            let py = map(k.y, 0, 480, 0, height) + gy;
+            if (frameCount % 2 === 0) emitParticle(px, py, 2, (hueShift + idx * 30) % 360);
+          });
+
+          // Pinch detection (thumb tip = 4, index tip = 8)
+          let thumb = hand.keypoints[4], index = hand.keypoints[8];
+          let thumbX = map(thumb.x, 0, 640, 0, width);
+          let thumbY = map(thumb.y, 0, 480, 0, height);
+          let indexX = map(index.x, 0, 640, 0, width);
+          let indexY = map(index.y, 0, 480, 0, height);
+          let pinchDist = dist(thumbX, thumbY, indexX, indexY);
+          let cx = (thumbX + indexX) / 2 + gx;
+          let cy = (thumbY + indexY) / 2 + gy;
+
+          if (pinchDist < 40 && !pinchState[i]) {
+            pinchState[i] = true;
+            triggerExplosion(cx, cy);
+            comboCount++;
+            comboTimer = 90;
+            showCombo(comboCount);
+            playExplosionSound();
+          } else if (pinchDist >= 40) {
+            pinchState[i] = false;
+          }
+        }
+
+        // Two-hand energy link
+        if (hands.length === 2) {
+          let d = dist(
+            map(hands[0].keypoints[9].x, 0, 640, 0, width), map(hands[0].keypoints[9].y, 0, 480, 0, height),
+            map(hands[1].keypoints[9].x, 0, 640, 0, width), map(hands[1].keypoints[9].y, 0, 480, 0, height)
+          );
+          let proximity = map(d, 100, 800, 1, 0, true);
+          drawEnergyLink(hands[0], hands[1], proximity, gx, gy);
+          linkOsc.amp(map(proximity, 0, 1, 0.05, 0.4), 0.1);
+          linkOsc.freq(80 + proximity * 100);
+          linkOsc.start();
+        } else { linkOsc.amp(0, 0.5); }
+      } else {
+        linkOsc.amp(0, 0.5);
+        drawScanningUI();
+      }
+
+      drawVirtualButtons(gx, gy);
+      drawHUD();
+    }
+
+    // ─── Matrix Rain ──────────────────────────────────────────────────────
+    function drawMatrixRain() {
+      colorMode(RGB);
+      fill(0, 255, 70, 180);
+      textSize(14);
+      textAlign(LEFT);
+      for (let col of matrixCols) {
+        let ch = matrixChars[floor(random(matrixChars.length))];
+        text(ch, col.x, col.y);
+        col.y += col.speed;
+        if (col.y > height) { col.y = random(-200, 0); col.speed = random(5, 20); }
+      }
+      colorMode(HSB, 360, 100, 100, 100);
+    }
+
+    // ─── Particles ────────────────────────────────────────────────────────
+    function emitParticle(x, y, count, hue) {
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x, y,
+          vx: random(-3, 3), vy: random(-5, 1),
+          life: random(20, 60),
+          maxLife: 0,
+          size: random(3, 10),
+          hue: (hue + random(-30, 30) + 360) % 360,
+          trail: []
+        });
+        particles[particles.length - 1].maxLife = particles[particles.length - 1].life;
+      }
+    }
+
+    function triggerExplosion(x, y) {
+      // Big burst
+      for (let i = 0; i < 60; i++) {
+        let angle = random(360);
+        let speed = random(3, 18);
+        particles.push({
+          x, y,
+          vx: cos(angle) * speed,
+          vy: sin(angle) * speed,
+          life: random(30, 90),
+          maxLife: 90,
+          size: random(5, 18),
+          hue: random(360),
+          trail: []
+        });
+      }
+      // Shockwave
+      shockwaves.push({ x, y, r: 10, maxR: 250, life: 40, maxLife: 40 });
+    }
+
+    function updateParticles() {
+      for (let i = particles.length - 1; i >= 0; i--) {
+        let p = particles[i];
+        p.trail.push({ x: p.x, y: p.y });
+        if (p.trail.length > 6) p.trail.shift();
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.15; // gravity
+        p.vx *= 0.97;
+        p.life--;
+
+        let alpha = map(p.life, 0, p.maxLife, 0, 80);
+        // Trail
+        for (let t = 0; t < p.trail.length; t++) {
+          let ta = map(t, 0, p.trail.length, 0, alpha * 0.5);
+          noStroke(); fill(p.hue, 90, 100, ta);
+          circle(p.trail[t].x, p.trail[t].y, p.size * 0.5);
+        }
+        // Particle
+        noStroke();
+        fill(p.hue, 100, 100, alpha);
+        circle(p.x, p.y, p.size);
+        // Glow
+        fill(p.hue, 60, 100, alpha * 0.3);
+        circle(p.x, p.y, p.size * 3);
+
+        if (p.life <= 0) particles.splice(i, 1);
+      }
+    }
+
+    // ─── Shockwaves ───────────────────────────────────────────────────────
+    function updateShockwaves() {
+      for (let i = shockwaves.length - 1; i >= 0; i--) {
+        let s = shockwaves[i];
+        s.r = map(s.life, s.maxLife, 0, 10, s.maxR);
+        let alpha = map(s.life, 0, s.maxLife, 0, 80);
+
+        for (let ring = 0; ring < 3; ring++) {
+          noFill();
+          stroke((hueShift + ring * 40) % 360, 100, 100, alpha / (ring + 1));
+          strokeWeight(3 - ring);
+          circle(s.x, s.y, s.r - ring * 15);
+        }
+        s.life--;
+        if (s.life <= 0) shockwaves.splice(i, 1);
+      }
+    }
+
+    // ─── Trails ───────────────────────────────────────────────────────────
+    function updateTrails(hand, handIdx, gx, gy) {
+      if (!trails[handIdx]) trails[handIdx] = {};
+      [4, 8, 12, 16, 20].forEach(idx => {
+        if (!trails[handIdx][idx]) trails[handIdx][idx] = [];
+        let k = hand.keypoints[idx];
+        let x = map(k.x, 0, 640, 0, width) + gx;
+        let y = map(k.y, 0, 480, 0, height) + gy;
+        trails[handIdx][idx].push({ x, y, hue: (hueShift + idx * 30) % 360 });
+        if (trails[handIdx][idx].length > 25) trails[handIdx][idx].shift();
+      });
+    }
+
+    function drawTrails(handIdx) {
+      if (!trails[handIdx]) return;
+      Object.keys(trails[handIdx]).forEach(idx => {
+        let trail = trails[handIdx][idx];
+        for (let i = 1; i < trail.length; i++) {
+          let alpha = map(i, 0, trail.length, 0, 70);
+          let w = map(i, 0, trail.length, 1, 5);
+          stroke(trail[i].hue, 100, 100, alpha);
+          strokeWeight(w);
+          line(trail[i - 1].x, trail[i - 1].y, trail[i].x, trail[i].y);
+        }
+      });
+    }
+
+    // ─── Glow Skeleton ─────────────────────────────────────────────────────
+    function drawGlowSkeleton(hand, handIdx, gx, gy) {
+      let connections = handPose.getConnections();
+      for (let i = 0; i < connections.length; i++) {
+        let a = connections[i][0], b = connections[i][1];
+        let ax = map(hand.keypoints[a].x, 0, 640, 0, width) + gx;
+        let ay = map(hand.keypoints[a].y, 0, 480, 0, height) + gy;
+        let bx = map(hand.keypoints[b].x, 0, 640, 0, width) + gx;
+        let by = map(hand.keypoints[b].y, 0, 480, 0, height) + gy;
+
+        let connHue = (hueShift + i * (360 / connections.length)) % 360;
+
+        // 3-layer glow
+        for (let layer = 3; layer >= 1; layer--) {
+          stroke(connHue, 100, 100, 15 * layer);
+          strokeWeight(layer * 4);
+          line(ax, ay, bx, by);
+        }
+        // Core line
+        stroke(connHue, 60, 100, 90);
+        strokeWeight(1.5);
+        line(ax, ay, bx, by);
+      }
+    }
+
+    // ─── Explosive Fingertips ─────────────────────────────────────────────
+    function drawExplosiveFingertips(hand, handIdx, gx, gy) {
+      [4, 8, 12, 16, 20].forEach((idx, fi) => {
+        let k = hand.keypoints[idx];
+        let x = map(k.x, 0, 640, 0, width) + gx;
+        let y = map(k.y, 0, 480, 0, height) + gy;
+        let h = (hueShift + fi * 72) % 360;
+        let pulse = sin(frameCount * 8 + fi * 60) * 5;
+
+        // Outer glow rings
+        for (let r = 3; r >= 1; r--) {
+          noFill();
+          stroke(h, 100, 100, 20 * r);
+          strokeWeight(r);
+          circle(x, y, 35 + pulse + r * 10);
+        }
+        // Inner filled circle
+        noStroke();
+        fill(h, 90, 100, 80);
+        circle(x, y, 10 + pulse * 0.5);
+
+        // Index tip (8): double ring + rotating tick marks
+        if (idx === 8) {
+          noFill(); stroke(h, 100, 100, 90); strokeWeight(2);
+          circle(x, y, 22); circle(x, y, 34);
+          // Rotating ticks
+          push(); translate(x, y); rotate(frameCount * 3);
+          stroke(h, 80, 100, 60); strokeWeight(1);
+          for (let t = 0; t < 8; t++) { rotate(45); line(12, 0, 17, 0); }
+          pop();
+        }
+
+        // Label
+        colorMode(RGB);
+        fill(255); noStroke(); textSize(9); textAlign(LEFT);
+        text(`[${idx}]`, x + 15, y - 8);
+        colorMode(HSB, 360, 100, 100, 100);
+      });
+
+      // All landmark points
+      for (let i = 0; i < hand.keypoints.length; i++) {
+        if ([4, 8, 12, 16, 20].includes(i)) continue;
+        let k = hand.keypoints[i];
+        let x = map(k.x, 0, 640, 0, width) + gx;
+        let y = map(k.y, 0, 480, 0, height) + gy;
+        let h = (hueShift + i * (360 / 21)) % 360;
+        noStroke(); fill(h, 100, 100, 70);
+        circle(x, y, 7);
+      }
+    }
+
+    // ─── Holo Dial ────────────────────────────────────────────────────────
+    function drawHoloDial(hand, id, gx, gy) {
+      let wrist = hand.keypoints[0], middle = hand.keypoints[9];
+      let targetX = map(wrist.x, 0, 640, 0, width), targetY = map(wrist.y, 0, 480, 0, height);
+      let angle = atan2(middle.y - wrist.y, middle.x - wrist.x) + 90;
+      smoothedAngle[id] = lerp(smoothedAngle[id] || 0, angle, 0.15);
+      smoothedPos[id].x = lerp(smoothedPos[id].x || targetX, targetX, 0.2);
+      smoothedPos[id].y = lerp(smoothedPos[id].y || targetY, targetY, 0.2);
+
+      if (abs(smoothedAngle[id] - lastTickAngle[id]) >= 15) {
+        playTone(1600); lastTickAngle[id] = smoothedAngle[id];
+      }
+
+      push();
+      translate(smoothedPos[id].x + gx, smoothedPos[id].y + gy);
+      rotate(smoothedAngle[id]);
+
+      let dialHue = (hueShift + id * 180) % 360;
+      noFill(); stroke(dialHue, 100, 100, 70); strokeWeight(2);
+      arc(0, 0, 140, 140, -40, 220);
+      // Glow arc
+      stroke(dialHue, 80, 100, 20); strokeWeight(10);
+      arc(0, 0, 140, 140, -40, 220);
+
+      for (let i = 0; i < 12; i++) {
+        rotate(30);
+        stroke(dialHue, 100, 100, 60); strokeWeight(1);
+        line(55, 0, 63, 0);
+      }
+      // Pointer
+      fill(0, 100, 100); noStroke();
+      triangle(78, 0, 67, -6, 67, 6);
+      pop();
+
+      colorMode(RGB); fill(255); noStroke(); textAlign(CENTER); textSize(20);
+      text(`${int(smoothedAngle[id])}°`, smoothedPos[id].x + gx, smoothedPos[id].y + gy + 12);
+      colorMode(HSB, 360, 100, 100, 100);
+    }
+
+    // ─── Energy Link ──────────────────────────────────────────────────────
+    function drawEnergyLink(h1, h2, k, gx, gy) {
+      let p1x = map(h1.keypoints[9].x, 0, 640, 0, width) + gx;
+      let p1y = map(h1.keypoints[9].y, 0, 480, 0, height) + gy;
+      let p2x = map(h2.keypoints[9].x, 0, 640, 0, width) + gx;
+      let p2y = map(h2.keypoints[9].y, 0, 480, 0, height) + gy;
+
+      // Multi-strand lightning
+      for (let strand = 0; strand < 4; strand++) {
+        let h = (hueShift + strand * 90) % 360;
+        stroke(h, 100, 100, 40 + k * 40);
+        strokeWeight(1 + k * 5);
+        beginShape(); noFill();
+        for (let t = 0; t <= 1; t += 0.04) {
+          vertex(
+            lerp(p1x, p2x, t) + random(-k * 25, k * 25) + sin(frameCount + strand) * 5,
+            lerp(p1y, p2y, t) + random(-k * 25, k * 25) + cos(frameCount + strand) * 5
+          );
+        }
+        endShape();
+      }
+      // Center orb
+      let orbH = (hueShift + frameCount * 2) % 360;
+      noStroke(); fill(orbH, 100, 100, 80);
+      circle((p1x + p2x) / 2, (p1y + p2y) / 2, 12 + k * 30);
+      fill(orbH, 50, 100, 30);
+      circle((p1x + p2x) / 2, (p1y + p2y) / 2, 30 + k * 50);
+    }
+
+    // ─── Buttons ──────────────────────────────────────────────────────────
+    function checkButtons(x, y) {
+      buttons.forEach(btn => {
+        let inside = x > btn.x && x < btn.x + btn.w && y > btn.y && y < btn.y + btn.h;
+        if (inside && !btn.active) {
+          btn.active = true; playTone(1000);
+          if (btn.label === 'COLOR') {
+            colorIdx = (colorIdx + 1) % PALETTE.length;
+            hueShift = colorIdx * 60;
+          } else if (btn.label === 'GLITCH') {
+            glitchTimer = 40; playTone(150);
+          } else if (btn.label === 'RAVE') {
+            raveMode = !raveMode;
+          } else if (btn.label === 'MATRIX') {
+            matrixMode = !matrixMode;
+          }
+        } else if (!inside) { btn.active = false; }
+      });
+    }
+
+    function drawVirtualButtons(gx, gy) {
+      buttons.forEach(btn => {
+        push(); translate(btn.x + gx / 3, btn.y + gy / 3);
+        let bHue = (hueShift + buttons.indexOf(btn) * 90) % 360;
+        noFill(); stroke(bHue, 100, 100, 150); strokeWeight(1);
+        rect(0, 0, btn.w, btn.h, 3);
+        if (btn.active) {
+          fill(bHue, 100, 100, 40); rect(0, 0, btn.w, btn.h, 3);
+        }
+        // Glow on active/rave
+        let on = (btn.label === 'RAVE' && raveMode) || (btn.label === 'MATRIX' && matrixMode);
+        if (on) { stroke(bHue, 100, 100, 80); strokeWeight(3); rect(-2, -2, btn.w + 4, btn.h + 4, 3); }
+        colorMode(RGB);
+        fill(on || btn.active ? 255 : 200); noStroke();
+        textAlign(CENTER, CENTER); textSize(11);
+        text(btn.label + (on ? ' ✓' : ''), btn.w / 2, btn.h / 2);
+        colorMode(HSB, 360, 100, 100, 100);
+        pop();
+      });
+    }
+
+    // ─── Cursor ───────────────────────────────────────────────────────────
+    function drawCursor(tx, ty, id) {
+      let h = (hueShift + id * 180) % 360;
+      noStroke(); fill(h, 20, 100, 90);
+      circle(tx, ty, 7);
+      noFill(); stroke(h, 100, 100, 80); strokeWeight(1.5);
+      circle(tx, ty, 22 + sin(frameCount * 10) * 5);
+      stroke(h, 60, 100, 30); strokeWeight(6);
+      circle(tx, ty, 40 + sin(frameCount * 10) * 5);
+    }
+
+    // ─── Scanning UI ──────────────────────────────────────────────────────
+    function drawScanningUI() {
+      let scanH = (hueShift) % 360;
+      stroke(scanH, 80, 100, 50); strokeWeight(1);
+      line(0, (frameCount * 4) % height, width, (frameCount * 4) % height);
+      // Corners
+      colorMode(RGB); stroke(0, 255, 255, 100); strokeWeight(2); noFill();
+      let s = 30;
+      [[0, 0], [width, 0], [0, height], [width, height]].forEach(([cx, cy]) => {
+        let dx = cx === 0 ? 1 : -1, dy = cy === 0 ? 1 : -1;
+        line(cx, cy, cx + dx * s, cy);
+        line(cx, cy, cx, cy + dy * s);
+      });
+      colorMode(HSB, 360, 100, 100, 100);
+      fill(180, 80, 100, 60); noStroke(); textAlign(CENTER); textSize(14);
+      text('[ SCANNING FOR HANDS ]', width / 2, height / 2);
+    }
+
+    // ─── HUD ──────────────────────────────────────────────────────────────
+    function drawHUD() {
+      colorMode(RGB);
+      // FPS
+      fill(0, 255, 255, 80); noStroke(); textSize(10); textAlign(RIGHT);
+      text(`FPS: ${int(frameRate())}  PARTICLES: ${particles.length}`, width - 15, height - 15);
+      // Pinch combo indicator
+      if (comboCount > 0) {
+        textAlign(RIGHT); textSize(14);
+        fill(255, 100, 200, 180);
+        text(`PINCH COMBO x${comboCount}`, width - 15, height - 35);
+      }
+      colorMode(HSB, 360, 100, 100, 100);
+    }
+
+    // ─── Combo Display ────────────────────────────────────────────────────
+    function showCombo(n) {
+      let el = document.getElementById('combo-display');
+      el.innerText = n >= 5 ? `💥 x${n} INSANE!` : `x${n}`;
+      el.style.opacity = 1;
+      el.style.color = n >= 5 ? '#ff0' : '#fff';
+      el.style.textShadow = n >= 5
+        ? '0 0 40px #f00, 0 0 80px #f00, 0 0 120px #f00'
+        : '0 0 30px #f0f, 0 0 60px #f0f';
+      clearTimeout(el._t);
+      el._t = setTimeout(() => el.style.opacity = 0, 600);
+    }
+
+    function windowResized() { resizeCanvas(windowWidth, windowHeight); }
+  </script>
+</body>
+
+</html>
