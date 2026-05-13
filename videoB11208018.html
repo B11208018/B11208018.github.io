@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>充實的人生：學術回顧與實踐 - B11208018</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            gold: '#fbbf24',
+                            crimson: '#dc2626'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'Noto Sans TC', 'sans-serif'],
+                        display: ['Outfit', 'Noto Sans TC', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.15) 0%, transparent 50%);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Hero Section / Header -->
+    <header class="relative pt-20 pb-12 px-6 overflow-hidden">
+        <div class="hero-gradient absolute top-0 left-0 w-full h-full -z-10"></div>
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="inline-block px-4 py-1.5 mb-6 text-xs font-semibold tracking-widest text-brand-500 uppercase bg-brand-500/10 rounded-full border border-brand-500/20">
+                B11208018 • Positive Psychology Report
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
+                探索<span class="gradient-text">充實的人生</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-slate-400 text-lg leading-relaxed">
+                從正向心理學的角度出發，探索如何從簡單的感官快樂，提升至深層的自我實現與繁榮。
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-8 pb-24 space-y-32">
+
+        <!-- Section 1: Infographic (TOP) -->
+        <section id="infographic" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="h-8 w-1 bg-brand-500 rounded-full"></div>
+                <h2 class="text-3xl font-bold tracking-tight">核心摘要圖表</h2>
+            </div>
+            <div class="glass-card rounded-3xl overflow-hidden shadow-2xl transition-transform hover:scale-[1.01] duration-500">
+                <img src='https://opal.google/board/blobs/81963198-6df7-4861-a28e-bdb3e5740eff' alt='充實的人生資訊圖表' class="w-full h-auto object-cover" />
+            </div>
+        </section>
+
+        <!-- Section 2: Video (MIDDLE) -->
+        <section id="video" class="scroll-mt-24">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">視覺化生命旅程</h2>
+                    <p class="text-slate-400">專注於個人成長、深厚人際連結與生命目標追求的視覺體驗。</p>
+                </div>
+                <div class="relative glass-card rounded-[2.5rem] p-4 shadow-2xl">
+                    <div class="relative aspect-video rounded-2xl overflow-hidden bg-black">
+                        <video src='https://opal.google/board/blobs/87c2147e-6c1b-4042-bc8a-c83bec77f5ea' alt='充實的人生短影片' controls class="w-full h-full object-cover"></video>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Full Report (BOTTOM) -->
+        <section id="report" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="h-8 w-1 bg-brand-500 rounded-full"></div>
+                <h2 class="text-3xl font-bold tracking-tight">學術回顧報告</h2>
+            </div>
+
+            <!-- Bento Summary Grid -->
+            <div class="bento-grid mb-16">
+                <div class="col-span-1 md:col-span-2 row-span-2 glass-card p-8 rounded-3xl flex flex-col justify-between border-t border-l border-white/20">
+                    <div>
+                        <div class="w-12 h-12 bg-brand-500/20 rounded-xl flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">學術領域聚焦</h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            研究主要源自正向心理學，探討如何從感官快樂（Hedonia）提升至深層的自我實現（Eudaimonia）。
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-8 border-t border-white/5">
+                        <span class="text-brand-500 font-semibold italic">Ryff & Seligman 核心架構</span>
+                    </div>
+                </div>
+
+                <div class="col-span-1 md:col-span-2 glass-card p-8 rounded-3xl border-t border-l border-white/20">
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-brand-500"></span> 核心要素
+                    </h3>
+                    <p class="text-slate-400 text-sm">自主性、勝任感、良好人際關係、明確生活目的以及超越自我的貢獻。</p>
+                </div>
+
+                <div class="col-span-1 glass-card p-8 rounded-3xl border-t border-l border-white/20">
+                    <h3 class="text-xl font-bold mb-3">實踐途徑</h3>
+                    <p class="text-slate-400 text-sm">整合內在動機，活出核心價值與利他行為。</p>
+                </div>
+
+                <div class="col-span-1 glass-card p-8 rounded-3xl border-t border-l border-white/20">
+                    <h3 class="text-xl font-bold mb-3">生命意義</h3>
+                    <p class="text-slate-400 text-sm">理解感、目的感與價值感的交織。</p>
+                </div>
+            </div>
+
+            <!-- Detailed Content -->
+            <div class="max-w-4xl mx-auto space-y-16">
+                <!-- Introduction -->
+                <div class="prose prose-invert max-w-none">
+                    <h3 class="text-2xl font-bold text-white mb-6">一、 引言</h3>
+                    <p class="text-slate-300 leading-relaxed text-lg">
+                        在心理學與哲學的交會處，「充實的人生」一直是人類文明追求的核心母題。過去的研究多將幸福與「快樂」畫上等號，然而當代正向心理學（Positive Psychology）的回顧性文獻指出，真正的充實感來自於個人潛力的發揮與生命價值的實現。
+                    </p>
+                </div>
+
+                <!-- Core Concepts -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glass-card p-8 rounded-2xl">
+                        <h4 class="text-brand-500 font-bold mb-4">二、 核心概念定義</h4>
+                        <ul class="space-y-4">
+                            <li>
+                                <strong class="text-white block mb-1">自我實現幸福感 (EWB)</strong>
+                                <span class="text-slate-400 text-sm">個體在追求卓越、實現潛能過程中所感受到的滿足。</span>
+                            </li>
+                            <li>
+                                <strong class="text-white block mb-1">心理繁榮 (Flourishing)</strong>
+                                <span class="text-slate-400 text-sm">心理健康的最高狀態，在情緒與社會功能展現生命力。</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="glass-card p-8 rounded-2xl">
+                        <h4 class="text-accent-gold font-bold mb-4">生命意義的三個面向</h4>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <span class="bg-accent-gold/20 text-accent-gold text-xs px-2 py-1 rounded">理解</span>
+                                <span class="text-slate-400 text-sm">覺得生活是有規律且可被理解的。</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-accent-gold/20 text-accent-gold text-xs px-2 py-1 rounded">目的</span>
+                                <span class="text-slate-400 text-sm">擁有長遠的生活目標與方向感。</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-accent-gold/20 text-accent-gold text-xs px-2 py-1 rounded">價值</span>
+                                <span class="text-slate-400 text-sm">感到自己的存在對世界具有重要性。</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Theory Models -->
+                <div class="space-y-8">
+                    <h3 class="text-2xl font-bold text-white">三、 充實人生的主要理論模型</h3>
+                    
+                    <div class="bg-slate-900/50 rounded-3xl p-8 border border-white/5">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center gap-2 text-brand-500">
+                            Ryff 的心理幸福感模型 (PWB)
+                        </h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <p class="font-bold text-white">自主性</p>
+                                <p class="text-xs text-slate-500 mt-1">Autonomy</p>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <p class="font-bold text-white">環境掌控</p>
+                                <p class="text-xs text-slate-500 mt-1">Mastery</p>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <p class="font-bold text-white">個人成長</p>
+                                <p class="text-xs text-slate-500 mt-1">Growth</p>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <p class="font-bold text-white">人際關係</p>
+                                <p class="text-xs text-slate-500 mt-1">Relations</p>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <p class="font-bold text-white">生活目的</p>
+                                <p class="text-xs text-slate-500 mt-1">Purpose</p>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <p class="font-bold text-white">自我接納</p>
+                                <p class="text-xs text-slate-500 mt-1">Acceptance</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/50 rounded-3xl p-8 border border-white/5">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center gap-2 text-brand-500">
+                            Seligman 的 PERMA 模型
+                        </h4>
+                        <div class="flex flex-wrap gap-4">
+                            <span class="px-6 py-3 bg-brand-500/10 border border-brand-500/30 rounded-2xl text-brand-500 font-bold">P - Positive Emotion</span>
+                            <span class="px-6 py-3 bg-brand-500/10 border border-brand-500/30 rounded-2xl text-brand-500 font-bold">E - Engagement (Flow)</span>
+                            <span class="px-6 py-3 bg-brand-500/10 border border-brand-500/30 rounded-2xl text-brand-500 font-bold">R - Relationships</span>
+                            <span class="px-6 py-3 bg-brand-500/10 border border-brand-500/30 rounded-2xl text-brand-500 font-bold">M - Meaning</span>
+                            <span class="px-6 py-3 bg-brand-500/10 border border-brand-500/30 rounded-2xl text-brand-500 font-bold">A - Accomplishment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="space-y-8">
+                    <h3 class="text-2xl font-bold text-white">四、 達成途徑與結論</h3>
+                    <div class="grid gap-6">
+                        <div class="flex gap-6 items-center p-6 glass-card rounded-2xl group transition-all hover:bg-white/5">
+                            <div class="text-4xl font-bold text-brand-900/50 group-hover:text-brand-500/50 transition-colors">01</div>
+                            <div>
+                                <h5 class="text-lg font-bold">滿足基本心理需求</h5>
+                                <p class="text-slate-400 text-sm mt-1">滿足自主、勝任與連結感，激發內在動機。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-center p-6 glass-card rounded-2xl group transition-all hover:bg-white/5">
+                            <div class="text-4xl font-bold text-brand-900/50 group-hover:text-brand-500/50 transition-colors">02</div>
+                            <div>
+                                <h5 class="text-lg font-bold">實踐核心價值觀</h5>
+                                <p class="text-slate-400 text-sm mt-1">確保日常行為與內在價值一致，建立心理繁榮基石。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-center p-6 glass-card rounded-2xl group transition-all hover:bg-white/5">
+                            <div class="text-4xl font-bold text-brand-900/50 group-hover:text-brand-500/50 transition-colors">03</div>
+                            <div>
+                                <h5 class="text-lg font-bold">自我超越</h5>
+                                <p class="text-slate-400 text-sm mt-1">將個人能力用於利他貢獻，提升生命厚度。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 p-8 bg-gradient-to-br from-brand-900/20 to-brand-500/10 rounded-3xl border border-brand-500/20">
+                        <p class="italic text-slate-300 leading-loose">
+                            「充實的人生」並非一個静止的終點，而是一個不斷超越自我、活出意義的動態過程。透過建立深度的連結、確立清晰的目標，並在面對挑戰時持續成長，個體方能實現從「生存」到「繁榮」的躍遷。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- References -->
+                <div class="pt-12 border-t border-white/10">
+                    <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-6">引用文獻來源</h4>
+                    <ul class="space-y-3 text-xs text-slate-500 font-light leading-relaxed">
+                        <li>1. Martela, F., & Steger, M. F. (2016). The three meanings of meaning in life. <i>The Journal of Positive Psychology</i>.</li>
+                        <li>2. Ryff, C. D. (2014). Psychological well-being revisited. <i>Psychotherapy and Psychosomatics</i>.</li>
+                        <li>3. Seligman, M. E. P. (2018). PERMA and the building blocks of well-being. <i>The Journal of Positive Psychology</i>.</li>
+                        <li>4. VanderWeele, T. J. (2017). On the promotion of human flourishing. <i>PNAS</i>.</li>
+                        <li>5. Ryan, R. M., & Deci, E. L. (2017). <i>Self-determination theory</i>. Guilford Publications.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Center Footer -->
+    <footer class="py-12 border-t border-white/5 text-center">
+        <p class="text-slate-400 text-sm tracking-wide">
+            【主題探索報告】by <span class="italic text-accent-crimson font-medium">Famidoc Chang</span>
+        </p>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links if needed (future-proofing)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
