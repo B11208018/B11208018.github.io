@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>從「擼鐵」到數位科技——你不可不知的健身進化論！</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Noto+Sans+TC:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#0a0a0a',
+                            dark: '#121212',
+                            neon: '#ccff00', // Electric Lime
+                            accent: '#ff3e00', // Racing Red
+                            gray: '#1e1e1e',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Outfit', 'Noto Sans TC', 'sans-serif'],
+                        body: ['Noto Sans TC', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #ccff00, #00ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .section-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(204, 255, 0, 0.1);
+        }
+        .glow-button {
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 25px rgba(204, 255, 0, 0.7);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ccff00;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-brand-neon selection:text-black">
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Banner -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-brand-black/60 to-brand-black z-10"></div>
+            <img src='https://opal.google/board/blobs/e9c2f9f1-0fc8-430f-91af-610fa1a0a4dd' alt='Evolution of Fitness Banner' class="w-full h-full object-cover scale-110 motion-safe:animate-[pulse_10s_infinite]" />
+        </div>
+
+        <div class="relative z-20 container mx-auto px-6 text-center">
+            <div class="inline-block px-4 py-1 mb-6 border border-brand-neon text-brand-neon text-sm font-bold uppercase tracking-widest rounded-full animate-bounce">
+                Student ID: B11208018
+            </div>
+            <h1 class="font-display font-black text-5xl md:text-8xl mb-6 leading-tight tracking-tighter">
+                從「<span class="text-brand-neon italic">擼鐵</span>」到<br>
+                <span class="text-gradient">數位科技</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
+                你不可不知的健身進化論！打破舊思維，擁抱高效、科學且極致的身心革命。
+            </p>
+            <div class="mt-12">
+                <a href="#content" class="glow-button bg-brand-neon text-black px-10 py-4 rounded-full font-black text-lg transition-all hover:scale-110 active:scale-95 inline-flex items-center gap-2">
+                    探索進化 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" /></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main id="content" class="container mx-auto px-6 py-24">
+        
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            
+            <!-- Intro Section (Large) -->
+            <section class="md:col-span-8 glass-panel p-8 md:p-12 rounded-[2rem] section-card">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="w-12 h-[2px] bg-brand-neon"></span>
+                    <h2 class="text-brand-neon font-black text-2xl uppercase tracking-widest">Chapter 01</h2>
+                </div>
+                <h3 class="text-4xl md:text-5xl font-black mb-8 leading-tight">別再以為健身只是在搬重物！</h3>
+                <p class="text-lg md:text-xl text-gray-300 leading-relaxed space-y-6">
+                    在現代都市的街角，我們總能看見穿著緊身運動衣、手拿搖搖杯的身影匆匆趕往健身房。如果你對健身的印象還停留在一群渾身大汗的人在喧鬧的背景音樂中徒勞地搬動鐵塊，那可能需要更新一下你的思維軟體了。
+                </p>
+                <div class="mt-8 border-l-4 border-brand-accent pl-6 py-2 italic text-gray-400 text-lg">
+                    「健身是我們對自身這台『生物機器』最划算的長線投資。它不僅關乎肌肉的維度，更關乎我們如何奪回對生活的支配權。」
+                </div>
+            </section>
+
+            <!-- History Section (Vertical) -->
+            <section class="md:col-span-4 bg-brand-neon text-black p-8 md:p-12 rounded-[2rem] section-card flex flex-col justify-between">
+                <div>
+                    <h2 class="font-black text-2xl mb-4 uppercase">Chapter 02</h2>
+                    <h3 class="text-3xl font-black mb-6 italic underline decoration-4">考古時間：<br>健身是從打仗開始？</h3>
+                    <p class="font-medium leading-relaxed opacity-90">
+                        追溯歷史，健身的動機演變本身就是一部人類文明史。古希臘的戰士為了生存而訓練，東方的智慧則將氣息與武術結合，將身體練成通往精神彼岸的橋樑。
+                    </p>
+                </div>
+                <div class="mt-12 text-5xl font-black opacity-20 self-end">
+                    1901 → NOW
+                </div>
+            </section>
+
+            <!-- Arnold Highlight -->
+            <section class="md:col-span-5 glass-panel p-8 rounded-[2rem] border-brand-accent/30 overflow-hidden relative group">
+                <div class="absolute -right-10 -bottom-10 text-[10rem] font-black text-white/5 group-hover:text-brand-accent/10 transition-colors">A.S</div>
+                <h4 class="text-brand-accent font-black text-xl mb-4">轉折點</h4>
+                <p class="text-gray-300 relative z-10 text-lg">
+                    阿諾·史瓦辛格（Arnold Schwarzenegger）橫空出世，用好萊塢巨星的魅力將小眾文化推向全球。從那時起，健身正式從戰場走入了日常。
+                </p>
+            </section>
+
+            <!-- Modern Trends (Efficiency) -->
+            <section class="md:col-span-7 bg-brand-gray p-8 md:p-12 rounded-[2rem] border border-white/5 section-card">
+                <div class="flex flex-col h-full">
+                    <h2 class="text-brand-neon font-black text-2xl mb-6">Chapter 03: 科學效率王</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="p-4 rounded-xl bg-black/40 border border-white/5">
+                            <span class="text-3xl mb-2 block">💪</span>
+                            <h5 class="font-bold text-brand-neon mb-2">肌力訓練</h5>
+                            <p class="text-sm text-gray-400">預防肌少症的全齡化共識。</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-black/40 border border-white/5">
+                            <span class="text-3xl mb-2 block">⚡</span>
+                            <h5 class="font-bold text-brand-neon mb-2">HIIT 高強度</h5>
+                            <p class="text-sm text-gray-400">創造強大「後燃效應」的代謝王。</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-black/40 border border-white/5">
+                            <span class="text-3xl mb-2 block">🏗️</span>
+                            <h5 class="font-bold text-brand-neon mb-2">功能性訓練</h5>
+                            <p class="text-sm text-gray-400">服務於生活，拒絕腰酸背痛。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dark Side (Warning) -->
+            <section class="md:col-span-6 border-2 border-brand-accent p-8 md:p-12 rounded-[2rem] relative overflow-hidden group">
+                <div class="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <h2 class="text-brand-accent font-black text-2xl mb-4">Chapter 04: 健身房陰暗面</h2>
+                <ul class="space-y-4 text-gray-200 text-lg relative z-10">
+                    <li class="flex gap-3"><span class="text-brand-accent font-bold">●</span> 社群網站的濾鏡騙局與焦慮</li>
+                    <li class="flex gap-3"><span class="text-brand-accent font-bold">●</span> 藥物濫用的速成陷阱</li>
+                    <li class="flex gap-3"><span class="text-brand-accent font-bold">●</span> 器材霸占與優質文化的缺失</li>
+                </ul>
+            </section>
+
+            <!-- Future Tech (Futuristic) -->
+            <section class="md:col-span-6 glass-panel p-8 md:p-12 rounded-[2rem] border-brand-neon/20 overflow-hidden group">
+                <h2 class="text-gradient font-black text-2xl mb-4 tracking-tighter">Chapter 05: 未來健身房 (AI + VR)</h2>
+                <div class="space-y-4 text-gray-300">
+                    <p class="text-lg">
+                        想像在火星的赤紅沙塵中深蹲。**AI 虛擬教練** 實時糾正角度，**全方位長壽學** 將運動視為精準的醫藥。
+                    </p>
+                    <div class="flex gap-2">
+                        <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-mono uppercase">Virtual Reality</span>
+                        <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-mono uppercase">AI Coach</span>
+                        <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-mono uppercase">Longevity</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusion (Full Width) -->
+            <section class="md:col-span-12 bg-gradient-to-r from-brand-neon to-brand-accent p-1 rounded-[2rem] mt-12">
+                <div class="bg-brand-black w-full h-full rounded-[1.9rem] p-12 text-center">
+                    <h2 class="text-4xl md:text-6xl font-black mb-8">身體是你的，<span class="text-brand-neon">練就對了！</span></h2>
+                    <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                        健身是少數幾件能透過努力就獲得 100% 回饋的事情。別再等到明天，你的身體是唯一陪伴你走完一生的風景。
+                    </p>
+                    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="group relative px-8 py-3 font-bold text-white transition-all hover:text-brand-neon">
+                        <span class="absolute inset-0 border border-white/20 rounded-lg group-hover:border-brand-neon transition-colors"></span>
+                        回到巔峰
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Floating UI Decoration -->
+    <div class="fixed top-1/2 -left-20 w-64 h-64 bg-brand-neon/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="fixed bottom-0 -right-20 w-80 h-80 bg-brand-accent/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <script>
+        // Simple scroll animation for reveal
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
+
