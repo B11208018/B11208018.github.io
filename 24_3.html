@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>亞太公司治理與關係人交易研究智庫</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a', // blue-900
+                        secondary: '#3b82f6', // blue-500
+                        dark: '#0f172a', // slate-900
+                        light: '#f8fafc', // slate-50
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+        /* FAQ transition */
+        .faq-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .faq-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-light text-slate-800 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-building-columns text-primary text-2xl mr-3"></i>
+                    <span class="font-bold text-xl text-primary tracking-wide">CG Research Hub</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-slate-600 hover:text-primary transition font-medium">研究焦點</a>
+                    <a href="#resources" class="text-slate-600 hover:text-primary transition font-medium">文獻資源庫</a>
+                    <a href="#faq" class="text-slate-600 hover:text-primary transition font-medium">常見問題</a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-primary focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <a href="#about" class="block px-4 py-3 text-slate-600 hover:bg-slate-50">研究焦點</a>
+            <a href="#resources" class="block px-4 py-3 text-slate-600 hover:bg-slate-50">文獻資源庫</a>
+            <a href="#faq" class="block px-4 py-3 text-slate-600 hover:bg-slate-50">常見問題</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 md:pt-32 md:pb-20 bg-gradient-to-br from-slate-900 to-primary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">
+                解碼股權結構與關係人交易<br>
+                <span class="text-secondary">洞悉企業價值的核心關鍵</span>
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-10">
+                專為企管學者、投資分析師與公司治理專業人士打造。整合權益偏離、機構投資人、金字塔結構與 ESG 風險的最新實證研究智庫。
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-search text-slate-400"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                    class="block w-full pl-12 pr-4 py-4 rounded-full text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-secondary shadow-lg text-lg" 
+                    placeholder="搜尋關鍵字：如「金字塔結構」、「隧道效應」、「機構投資人」...">
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary">核心研究焦點</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto mt-4 rounded"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Topic 1 -->
+                <div class="p-6 bg-slate-50 rounded-xl border border-slate-100 hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-blue-100 text-secondary rounded-lg flex items-center justify-center mb-4 text-2xl">
+                        <i class="fa-solid fa-sitemap"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-2">核心代理問題</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        探討控制股東透過「金字塔結構」與「交叉持股」導致控制權與現金流量權偏離，進而影響企業價值的機制。
+                    </p>
+                </div>
+                <!-- Topic 2 -->
+                <div class="p-6 bg-slate-50 rounded-xl border border-slate-100 hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-blue-100 text-secondary rounded-lg flex items-center justify-center mb-4 text-2xl">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-2">關係人交易 (RPTs)</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        分析關係人交易作為利益輸送(Tunneling)或資源支持(Propping up)的雙面刃特性，及其對財務危機預測的影響。
+                    </p>
+                </div>
+                <!-- Topic 3 -->
+                <div class="p-6 bg-slate-50 rounded-xl border border-slate-100 hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-blue-100 text-secondary rounded-lg flex items-center justify-center mb-4 text-2xl">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-2">機構投資人盡職治理</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        共同機構投資者 (CIO) 與主動型機構投資人如何發揮監督功能，有效抑制不當關係人交易與盈餘管理。
+                    </p>
+                </div>
+                <!-- Topic 4 -->
+                <div class="p-6 bg-slate-50 rounded-xl border border-slate-100 hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-blue-100 text-secondary rounded-lg flex items-center justify-center mb-4 text-2xl">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-2">家族控股與 ESG</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        研究家族企業的所有權結構與關係人交易行為，如何與企業環境、社會與治理 (ESG) 風險產生關聯。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource Library Section -->
+    <section id="resources" class="py-16 bg-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <h2 class="text-3xl font-bold text-primary">文獻資源庫</h2>
+                    <p class="text-slate-500 mt-2">精選實證研究摘要與重點洞察</p>
+                </div>
+            </div>
+
+            <!-- Resource Grid -->
+            <div id="resourceGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="resource-card bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition" data-keywords="資訊透明度 金字塔結構 交叉持股 市場價值 代理問題 現金流量權">
+                    <span class="inline-block px-3 py-1 bg-blue-100 text-secondary text-xs font-semibold rounded-full mb-3">股權結構</span>
+                    <h3 class="text-xl font-bold text-dark mb-2">資訊透明度、金字塔結構、交叉持股與市場價值</h3>
+                    <p class="text-slate-600 text-sm mb-4 line-clamp-3">
+                        實證顯示國內電子業控制股東常利用金字塔結構與交叉持股增強控制權，導致控制權與現金流量權嚴重偏離。偏離程度越大，代理問題越嚴重，公司價值越低；提升資訊透明度能有效降低資訊不對稱，增加企業價值。
+                    </p>
+                    <div class="text-xs text-slate-400 flex items-center">
+                        <i class="fa-regular fa-file-pdf mr-1"></i> 關鍵字：金字塔結構, 資訊透明度, 代理問題
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="resource-card bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition" data-keywords="關係人交易 高科技產業 企業價值 財務危機 隧道效應 tunneling">
+                    <span class="inline-block px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded-full mb-3">關係人交易</span>
+                    <h3 class="text-xl font-bold text-dark mb-2">兩岸高科技產業關係人交易與企業價值之研究</h3>
+                    <p class="text-slate-600 text-sm mb-4 line-clamp-3">
+                        分析指出，台灣高科技產業的關係人應收付帳款與績效呈顯著正相關；反之，中國高科技產業的關係人進銷貨卻與績效呈顯著負相關，凸顯兩岸制度差異下，關係人交易可能被作為利益輸送（Tunneling）工具的風險。
+                    </p>
+                    <div class="text-xs text-slate-400 flex items-center">
+                        <i class="fa-regular fa-file-pdf mr-1"></i> 關鍵字：隧道效應, 關係人交易, 高科技產業
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="resource-card bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition" data-keywords="共同機構投資者 CIO 關係人交易 監督機制 中國">
+                    <span class="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full mb-3">機構投資人</span>
+                    <h3 class="text-xl font-bold text-dark mb-2">共同機構投資權能否抑制關係人交易？ (Evidence from China)</h3>
+                    <p class="text-slate-600 text-sm mb-4 line-clamp-3">
+                        針對中國 A 股上市公司的研究發現，共同機構投資者 (Common Institutional Ownership, CIO) 能顯著限制不當關係人交易的使用。尤其在資訊環境較差或大股東股權集中的企業中，CIO 的監督與專業機制作用更為明顯。
+                    </p>
+                    <div class="text-xs text-slate-400 flex items-center">
+                        <i class="fa-regular fa-file-pdf mr-1"></i> 關鍵字：CIO, 公司治理, 機構投資者
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="resource-card bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition" data-keywords="家族控股 關係人交易 ESG風險 社會責任">
+                    <span class="inline-block px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full mb-3">永續發展 (ESG)</span>
+                    <h3 class="text-xl font-bold text-dark mb-2">家族控股及關係人交易與 ESG 風險之關聯</h3>
+                    <p class="text-slate-600 text-sm mb-4 line-clamp-3">
+                        實證結果顛覆部分傳統認知，指出家族企業在某些情況下能展現較佳的 ESG 績效。較高的家族持股比例，以及特定的關係人應收/應付款項規模，竟與更優秀的 ESG 表現存在關聯，顯示家族可能因聲譽考量而更重視永續經營。
+                    </p>
+                    <div class="text-xs text-slate-400 flex items-center">
+                        <i class="fa-regular fa-file-pdf mr-1"></i> 關鍵字：家族企業, ESG風險, 所有權結構
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="resource-card bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition" data-keywords="核心代理問題 盈餘管理 董事會特性 現金流量權 家族企業">
+                    <span class="inline-block px-3 py-1 bg-blue-100 text-secondary text-xs font-semibold rounded-full mb-3">股權結構</span>
+                    <h3 class="text-xl font-bold text-dark mb-2">從核心代理問題角度探討股權結構對盈餘管理的影響</h3>
+                    <p class="text-slate-600 text-sm mb-4 line-clamp-3">
+                        管理階層持股與公司績效呈倒U型關係（利益收斂假說）。當控制權嚴重偏離現金流量權時，核心代理問題加劇，公司績效顯著下滑。此外，家族企業中，傳統的「所有者-管理者」衝突有時比「家族-少數股東」衝突付出更高代價。
+                    </p>
+                    <div class="text-xs text-slate-400 flex items-center">
+                        <i class="fa-regular fa-file-pdf mr-1"></i> 關鍵字：核心代理問題, 盈餘管理, 利益收斂
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="resource-card bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition" data-keywords="董事會結構 財務危機 羅吉斯迴歸 關係人交易">
+                    <span class="inline-block px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded-full mb-3">關係人交易</span>
+                    <h3 class="text-xl font-bold text-dark mb-2">關係人交易對財務危機預測模式影響之探討</h3>
+                    <p class="text-slate-600 text-sm mb-4 line-clamp-3">
+                        當公司面臨財務危機或倒閉風險時，高層可能透過頻繁的關係人交易來填補資金缺口或進行財富轉移。將關係人交易變數納入預測模型後，發現能將財務危機模型的預測準確率顯著提升 6.4%。
+                    </p>
+                    <div class="text-xs text-slate-400 flex items-center">
+                        <i class="fa-regular fa-file-pdf mr-1"></i> 關鍵字：財務危機預測, 羅吉斯迴歸
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- No Results Message -->
+            <div id="noResults" class="hidden text-center py-12">
+                <i class="fa-regular fa-folder-open text-4xl text-slate-300 mb-3"></i>
+                <p class="text-slate-500">找不到符合搜尋條件的文獻，請嘗試其他關鍵字。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary">專家常見問題 (FAQ)</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto mt-4 rounded"></div>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="border border-slate-200 rounded-lg bg-slate-50 overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-bold text-slate-800 flex justify-between items-center focus:outline-none">
+                        <span>什麼是「核心代理問題」(Core Agency Problem)？</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content px-6 bg-white border-t border-slate-100">
+                        <p class="py-4 text-slate-600 text-sm leading-relaxed">
+                            傳統的代理問題發生在「所有者」與「經營者」之間；而在台灣與東亞市場（股權高度集中），更常見的是**「核心代理問題」**，即**「控制大股東」與「少數小股東」**之間的利益衝突。大股東常利用金字塔結構、交叉持股等方式，以極少的「現金流量權」掌握龐大的「控制權」。當控制權大於現金流量權（偏離程度大）時，大股東有誘因犧牲公司利益以自肥，導致公司價值下降。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="border border-slate-200 rounded-lg bg-slate-50 overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-bold text-slate-800 flex justify-between items-center focus:outline-none">
+                        <span>關係人交易 (RPTs) 一定是負面的嗎？</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content px-6 bg-white border-t border-slate-100">
+                        <p class="py-4 text-slate-600 text-sm leading-relaxed">
+                            不一定。學理上分為兩面：正面而言，集團內的關係人交易可發揮綜效、節省交易成本、提高資產配置效率（支持效應 Propping up）。負面而言，當公司治理不佳或資訊透明度低時，關係人交易容易成為控制股東進行**「利益輸送（掏空, Tunneling）」**的管道。實證指出，當面臨財務危機時，異常的關係人交易常是警訊。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="border border-slate-200 rounded-lg bg-slate-50 overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-bold text-slate-800 flex justify-between items-center focus:outline-none">
+                        <span>機構投資人如何影響公司的關係人交易？</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content px-6 bg-white border-t border-slate-100">
+                        <p class="py-4 text-slate-600 text-sm leading-relaxed">
+                            研究顯示，機構投資人的角色取決於其類型。**主動型機構投資人**及**共同機構投資者 (CIO)** 能夠發揮專業的「盡職治理」與監督功能，有效抑制管理階層的機會主義行為及不當的關係人交易。相反地，被動型機構投資人若僅依賴指數操作，有時無法發揮實質監督功能，甚至與關係人交易的濫用呈現正相關。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="border border-slate-200 rounded-lg bg-slate-50 overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-bold text-slate-800 flex justify-between items-center focus:outline-none">
+                        <span>家族企業在 ESG (環境、社會、治理) 的表現通常較差嗎？</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content px-6 bg-white border-t border-slate-100">
+                        <p class="py-4 text-slate-600 text-sm leading-relaxed">
+                            這是一個常見的迷思。依據文獻的實證研究發現，家族企業因為追求基業長青與維護家族聲譽，有時會比非家族企業**表現出更好的 ESG 績效**。研究指出，當家族持股比例越高時，為了降低社會政治成本並維持長期企業價值，他們反而更有誘因去落實社會責任與永續經營。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-slate-400 py-8 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fa-solid fa-building-columns text-secondary text-2xl mr-3"></i>
+                <span class="font-bold text-xl text-white">CG Research Hub</span>
+            </div>
+            <p class="text-sm">資料來源：基於學術研究論文建立之知識庫（包含公司治理、所有權結構、關係人交易與機構投資人實證分析）。</p>
+            <p class="text-sm mt-2">&copy; 2026 Corporate Governance Research Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // 1. Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 2. FAQ Accordion Logic
+        const faqButtons = document.querySelectorAll('.faq-btn');
+
+        faqButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                // Close other open faqs
+                document.querySelectorAll('.faq-content').forEach(otherContent => {
+                    if (otherContent !== content && otherContent.classList.contains('open')) {
+                        otherContent.classList.remove('open');
+                        otherContent.previousElementSibling.querySelector('i').classList.remove('rotate-180');
+                    }
+                });
+
+                // Toggle current faq
+                content.classList.toggle('open');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        // 3. Live Search for Resources
+        const searchInput = document.getElementById('searchInput');
+        const resourceCards = document.querySelectorAll('.resource-card');
+        const noResultsMessage = document.getElementById('noResults');
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            resourceCards.forEach(card => {
+                // Get text from keywords attribute, title, and paragraph
+                const keywords = card.getAttribute('data-keywords').toLowerCase();
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const text = card.querySelector('p').textContent.toLowerCase();
+
+                if (keywords.includes(searchTerm) || title.includes(searchTerm) || text.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show or hide "No Results" message
+            if (visibleCount === 0) {
+                noResultsMessage.classList.remove('hidden');
+            } else {
+                noResultsMessage.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
